@@ -35,7 +35,8 @@ P.S. За незакрытый файловый дескриптор - кара�
 
 # read the file dna.fasta
 dna = None
-
+dna = None
+dna = None
 
 def translate_from_dna_to_rna(dna):
     
