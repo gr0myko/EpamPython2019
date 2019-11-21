@@ -32,26 +32,27 @@
 P.S. За незакрытый файловый дескриптор - караем штрафным дезе.
 
 """
+import matplotlib.pyplot as plt
 
-dna = open('./files/dna.fasta')
-#creating dictionary for dna names and dna sequences
+dna_fasta = open('./files/dna.fasta')
+# creating dictionary for dna names and dna sequences
 dna_seqs = {}
-for line in dna:
+for line in dna_fasta:
     line = line.rstrip()
     if line[0] == '>':
         name_words = line.split()
         name = name_words[0][1:]
-        dna_seqs[name] = ''
+        dna_seqs[name] = ""
     else:
         dna_seqs[name] = dna_seqs[name] + line
-dna.close()
+dna_fasta.close()
+
 
 def translate_from_dna_to_rna(dna):
     rna = {}
     for dna_id, seq in dna.items():
         rna[dna_id] = seq.replace('T', 'U')
     return rna
-
 
 
 def count_nucleotides(dna):
@@ -64,6 +65,17 @@ def count_nucleotides(dna):
     return num_of_nucleotides
 
 
+# plots for number of nucleotides
+nucleotides_stat = count_nucleotides(dna_seqs)
+fig, axs = plt.subplots(1, len(nucleotides_stat), figsize=(6, 4))
+fig.tight_layout()
+for number, dna_dict in enumerate(nucleotides_stat):
+    axs[number].bar(list(dna_dict.keys()), dna_dict.values())
+    axs[number].set(xlabel='Type of nucleotide',
+                    ylabel='Total number')
+    axs[number].set_title(f'Number of nucleotides for {number} dna', size=12)
+plt.show()
+
 
 rna_codon = open('./files/rna_codon_table.txt')
 tr_dict = {}
@@ -74,8 +86,7 @@ for element in rna_codon.read().split():
     else:
         tr_dict[name] += element
 rna_codon.close()
-rna = translate_from_dna_to_rna(dna_seqs)
-
+rna_from_dna = translate_from_dna_to_rna(dna_seqs)
 
 
 def translate_rna_to_protein(rna):
