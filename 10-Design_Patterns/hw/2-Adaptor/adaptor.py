@@ -4,21 +4,16 @@
     загрузить один и тот же файл дважды и т.д.)
 Сервис предоставляет определенный интерфейс, который мы знаем, но не можем изменить.
 Класс StoreService нельзя изменять.
-
 Класс DocumentsHandler - выполняющая роль выгрузки и загрузки документов часть нашего гипотетически огромного
     приложения App. Другими словами, это клиент, который содержит существующую бизнес-логику программы.
 Класс DocumentsHandler нельзя изменять.
-
 Далее идет клиентский код, в котором реализована логика загрузки документов в сервис-архив и выгрузка этих же
     документов из сервиса. Клиентский код изменять нельзя.
-
 Ранее сервис работал с документами в формате XML, но недавно он изменился и стал работать с JSON-документами,
     что вызвало ряд неполадок в нашем приложении. Необходимо написать класс-адаптер, который перед отработкой
     текущей бизнес-логики (загрузка документов) сконвертирует XML-документы в JSON-документы.
-
 Примечание: Действительно конвертировать XML в JSON не нужно. Будет достаточно изменить расширение документа.
 """
-
 import uuid
 import os
 
@@ -48,7 +43,7 @@ class StoreService:
             }
         return {
             'status': 'error',
-            'msg': 'Document with {} ID is not found.'.format(document_id),
+            'msg': f'Document with {document_id} ID is not found.',
         }
 
 
@@ -102,18 +97,63 @@ class DocumentsHandler:
 
 def client_code(documents_handler):
     xml_files_to_upload = os.listdir(os.path.dirname(__file__) + '/documents')
-
+    print(xml_files_to_upload)
     document_ids = documents_handler.upload_documents(xml_files_to_upload)
     print(document_ids)
     print(documents_handler.get_documents(document_ids[1]))
 
 
-if __name__ == "__main__":
-    class App: pass  # Упрощенная реализация сложного приложения
+class Adapter(DocumentsHandler):
+    def __init__(self, adaptee):
+        self.adaptee = adaptee
 
+    def upload_documents(self, documents):
+        """
+            Метод, принимающий на вход список документов, меняющий расширение документа
+            и передающий в DocumentHandler новый список с корректным расширением.
+
+        Добавить возможность конвертировать файлы:
+        if not isinstance(documents, list):
+            documents = [documents]
+        for file in documents:
+            base = os.path.splitext(file)[0]
+            os.rename(os.path.dirname(__file__) + '/documents/' + file,
+                      os.path.dirname(__file__) + '/documents/' + base + '.json')
+        converted = os.listdir(os.path.dirname(__file__) + '/documents')
+        """
+
+        if not isinstance(documents, list):
+            documents = [documents]
+        converted = [file.replace('.xml', '.json') for file in documents]
+        print(converted)
+        return self.adaptee.upload_documents(converted)
+    
+    def get_documents(self, document_ids):
+        """
+             Метод, принимающий на вход лист идентификаторов документов
+             и возвращающий список выгруженных документов. 
+        """
+        if not isinstance(document_ids, list):
+            document_ids = [document_ids]
+
+        loaded_documents = []
+
+        for doc_id in document_ids:
+            result = self.adaptee._service.get_document(doc_id)
+            if result['status'] == 'success':
+                loaded_documents.append(result['document'])
+            if result['status'] == 'error':
+                print("Couldn't load document with {} ID: {}".format(doc_id, result['msg']))
+
+        return loaded_documents
+
+
+if __name__ == "__main__":
+    class App:
+        pass  # Упрощенная реализация сложного приложения
 
     app = App()
     app.documents_handler = DocumentsHandler(StoreService())
     # Реализуйте класс Adapter и раскомментируйте строку ниже
-    # app.documents_handler = Adapter(app.documents_handler)
+    app.documents_handler = Adapter(app.documents_handler)
     client_code(app.documents_handler)
