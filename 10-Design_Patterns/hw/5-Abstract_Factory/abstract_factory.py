@@ -8,9 +8,12 @@
 """
 
 from abc import ABC, abstractmethod
+from ruamel import yaml
+
+with open("menu.yml", 'r', encoding='utf-8') as file:
+    menu = yaml.safe_load(file)
 
 
-# for Monday only
 class AbstractFirstCourse(ABC):
     def serve_meal(self):
         pass
@@ -22,19 +25,19 @@ class VeganFirstCourse(AbstractFirstCourse):
 
     def serve_meal(self):
         if self.weekday == 'Monday':
-            return 'Салат с рукколой и редисом'
+            return menu['Monday']['first_courses']['vegan']
         elif self.weekday == 'Tuesday':
-            return 'Морковно-яблочный салат'
+            return menu['Tuesday']['first_courses']['vegan']
         elif self.weekday == 'Wednesday':
-            return 'Салат из свежей капусты с чесночной заправкой'
+            return menu['Wednesday']['first_courses']['vegan']
         elif self.weekday == 'Thursday':
-            return 'Салат из огурцов и мяты.'
+            return menu['Thursday']['first_courses']['vegan']
         elif self.weekday == 'Friday':
-            return 'Запеканка из брокколи и цветной капусты'
+            return menu['Friday']['first_courses']['vegan']
         elif self.weekday == 'Saturday':
-            return 'Салат из моркови с чесноком'
+            return menu['Saturday']['first_courses']['vegan']
         elif self.weekday == 'Sunday':
-            return 'Салат из свежей капусты с яблоком'
+            return menu['Sunday']['first_courses']['vegan']
 
 
 class ChildFirstCourse(AbstractFirstCourse):
@@ -43,19 +46,19 @@ class ChildFirstCourse(AbstractFirstCourse):
 
     def serve_meal(self):
         if self.weekday == 'Monday':
-            return 'Салат из белокочанной капусты с яблоком'
+            return menu['Monday']['first_courses']['child']
         elif self.weekday == 'Tuesday':
-            return 'Свекольный салат с черносливом и фетой'
+            return menu['Tuesday']['first_courses']['child']
         elif self.weekday == 'Wednesday':
-            return 'Салат из моркови и кураги'
+            return menu['Wednesday']['first_courses']['child']
         elif self.weekday == 'Thursday':
-            return 'Салат "Витаминный"'
+            return menu['Thursday']['first_courses']['child']
         elif self.weekday == 'Friday':
-            return 'Панкейки с морковью'
+            return menu['Friday']['first_courses']['child']
         elif self.weekday == 'Saturday':
-            return 'нутовые блины с печенью трески'
+            return menu['Saturday']['first_courses']['child']
         elif self.weekday == 'Sunday':
-            return 'цельнозерновая паста со стручковой фасолью'
+            return menu['Sunday']['first_courses']['child']
 
 
 class ChinaFirstCourse(AbstractFirstCourse):
@@ -64,19 +67,19 @@ class ChinaFirstCourse(AbstractFirstCourse):
 
     def serve_meal(self):
         if self.weekday == 'Monday':
-            return 'Курица Гунбао'
+            return menu['Monday']['first_courses']['china']
         elif self.weekday == 'Tuesday':
-            return 'Жареные огурцы'
+            return menu['Tuesday']['first_courses']['china']
         elif self.weekday == 'Wednesday':
-            return 'Тушеные грибы и морские ушки'
+            return menu['Wednesday']['first_courses']['china']
         elif self.weekday == 'Thursday':
-            return 'Салат фунчоза с мясом'
+            return menu['Thursday']['first_courses']['china']
         elif self.weekday == 'Friday':
-            return 'Салат Пекинский с отварной курятиной'
+            return menu['Friday']['first_courses']['china']
         elif self.weekday == 'Saturday':
-            return 'Курица с ананасами в кисло-сладком соусе'
+            return menu['Saturday']['first_courses']['china']
         elif self.weekday == 'Sunday':
-            return 'Жареный рис с овощами по китайски'
+            return menu['Sunday']['first_courses']['china']
 
 
 class AbstractSecondCourse(ABC):
@@ -90,19 +93,19 @@ class VeganSecondCourse(AbstractSecondCourse):
 
     def serve_meal(self):
         if self.weekday == 'Monday':
-            return 'Морковный суп-пюре с хрустящим нутом'
+            return menu['Monday']['second_courses']['vegan']
         elif self.weekday == 'Tuesday':
-            return 'Гороховый суп с томатной пастой'
+            return menu['Tuesday']['second_courses']['vegan']
         elif self.weekday == 'Wednesday':
-            return 'Гороховый суп с томатной пастой'
+            return menu['Wednesday']['second_courses']['vegan']
         elif self.weekday == 'Thursday':
-            return 'Грибной суп из вешенок'
+            return menu['Thursday']['second_courses']['vegan']
         elif self.weekday == 'Friday':
-            return 'Темный борщ с грибами и черносливом'
+            return menu['Friday']['second_courses']['vegan']
         elif self.weekday == 'Saturday':
-            return 'Светлый борщ с грибами и курагой'
+            return menu['Saturday']['second_courses']['vegan']
         elif self.weekday == 'Sunday':
-            return 'Запеканка с фасолью и картофельным пюре'
+            return menu['Sunday']['second_courses']['vegan']
 
 
 class ChildSecondCourse(AbstractSecondCourse):
@@ -111,19 +114,19 @@ class ChildSecondCourse(AbstractSecondCourse):
 
     def serve_meal(self):
         if self.weekday == 'Monday':
-            return 'Борщ-пюре'
+            return menu['Monday']['second_courses']['child']
         elif self.weekday == 'Tuesday':
-            return 'Суп рататуй в мультиварке'
+            return menu['Tuesday']['second_courses']['child']
         elif self.weekday == 'Wednesday':
-            return 'Суп с рыбными фрикадельками'
+            return menu['Wednesday']['second_courses']['child']
         elif self.weekday == 'Thursday':
-            return 'Суп рататуй в мультиварке'
+            return menu['Thursday']['second_courses']['child']
         elif self.weekday == 'Friday':
-            return 'Суп с рыбными фрикадельками'
+            return menu['Friday']['second_courses']['child']
         elif self.weekday == 'Saturday':
-            return 'Гороховый суп'
+            return menu['Saturday']['second_courses']['child']
         elif self.weekday == 'Sunday':
-            return 'Овощной суп с нутом'
+            return menu['Sunday']['second_courses']['child']
 
 
 class ChinaSecondCourse(AbstractSecondCourse):
@@ -132,19 +135,19 @@ class ChinaSecondCourse(AbstractSecondCourse):
 
     def serve_meal(self):
         if self.weekday == 'Monday':
-            return 'Китайский холодный суп из баклажанов'
+            return menu['Monday']['second_courses']['china']
         elif self.weekday == 'Tuesday':
-            return 'Сырный суп с копчеными колбасками '
+            return menu['Tuesday']['second_courses']['china']
         elif self.weekday == 'Wednesday':
-            return 'Суп с рисовой лапшой и бараниной'
+            return menu['Wednesday']['second_courses']['china']
         elif self.weekday == 'Thursday':
-            return 'Кисло-сладкий острый суп'
+            return menu['Thursday']['second_courses']['china']
         elif self.weekday == 'Friday':
-            return 'Суп с зимней тыквой и свиными рёбрышками'
+            return menu['Friday']['second_courses']['china']
         elif self.weekday == 'Saturday':
-            return 'Яичный суп с помидорами'
+            return menu['Saturday']['second_courses']['china']
         elif self.weekday == 'Sunday':
-            return 'Яичный суп с чёрным древесным грибом'
+            return menu['Sunday']['second_courses']['china']
 
 
 class AbstractDrink(ABC):
@@ -157,7 +160,20 @@ class VeganDrink(AbstractDrink):
         self.weekday = weekday
 
     def serve_meal(self):
-        return 'Фруктовый коктейль с кефиром и творогом'
+        if self.weekday == 'Monday':
+            return menu['Monday']['drinks']['vegan']
+        elif self.weekday == 'Tuesday':
+            return menu['Tuesday']['drinks']['vegan']
+        elif self.weekday == 'Wednesday':
+            return menu['Wednesday']['drinks']['vegan']
+        elif self.weekday == 'Thursday':
+            return menu['Thursday']['drinks']['vegan']
+        elif self.weekday == 'Friday':
+            return menu['Friday']['drinks']['vegan']
+        elif self.weekday == 'Saturday':
+            return menu['Saturday']['drinks']['vegan']
+        elif self.weekday == 'Sunday':
+            return menu['Sunday']['drinks']['vegan']
 
 
 class ChildDrink(AbstractDrink):
@@ -166,19 +182,19 @@ class ChildDrink(AbstractDrink):
 
     def serve_meal(self):
         if self.weekday == 'Monday':
-            return 'Компот из сухофруктов'
+            return menu['Monday']['drinks']['child']
         elif self.weekday == 'Tuesday':
-            return 'Компот из замороженных ягод'
+            return menu['Tuesday']['drinks']['child']
         elif self.weekday == 'Wednesday':
-            return 'Растишка'
+            return menu['Wednesday']['drinks']['child']
         elif self.weekday == 'Thursday':
-            return 'Фрутоняня'
+            return menu['Thursday']['drinks']['child']
         elif self.weekday == 'Friday':
-            return 'Агуша'
+            return menu['Friday']['drinks']['child']
         elif self.weekday == 'Saturday':
-            return 'Яблочный сок из яблок'
+            return menu['Saturday']['drinks']['child']
         elif self.weekday == 'Sunday':
-            return 'Банановый смузи с печеньем и орехами'
+            return menu['Sunday']['drinks']['child']
 
 
 class ChinaDrink(AbstractDrink):
@@ -187,19 +203,19 @@ class ChinaDrink(AbstractDrink):
 
     def serve_meal(self):
         if self.weekday == 'Monday':
-            return 'Ореховый кисель'
+            return menu['Monday']['drinks']['china']
         elif self.weekday == 'Tuesday':
-            return 'Кисель из ржаной муки'
+            return menu['Tuesday']['drinks']['china']
         elif self.weekday == 'Wednesday':
-            return 'Кисель из ананаса по-пекински'
+            return menu['Wednesday']['drinks']['china']
         elif self.weekday == 'Thursday':
-            return 'Чай из древесных грибов'
+            return menu['Thursday']['drinks']['china']
         elif self.weekday == 'Friday':
-            return 'Кисель из ржаной муки'
+            return menu['Friday']['drinks']['china']
         elif self.weekday == 'Saturday':
-            return 'Ореховый кисель'
+            return menu['Saturday']['drinks']['china']
         elif self.weekday == 'Sunday':
-            return 'Кисель из ананаса по-пекински'
+            return menu['Sunday']['drinks']['china']
 
 
 class AbstractMenu(ABC):
@@ -249,10 +265,10 @@ class ChinaMenu(AbstractMenu):
         return ChinaDrink(weekday)
 
 
-def client_code(menu: AbstractMenu, weekday: str):
-    first_course = menu.create_fc(weekday)
-    second_course = menu.create_sc(weekday)
-    drink = menu.create_drink(weekday)
+def client_code(menu_type: AbstractMenu, weekday: str):
+    first_course = menu_type.create_fc(weekday)
+    second_course = menu_type.create_sc(weekday)
+    drink = menu_type.create_drink(weekday)
 
     print(first_course.serve_meal())
     print(second_course.serve_meal())
@@ -263,4 +279,4 @@ if __name__ == "__main__":
     """
     Клиентский код может работать с любым конкретным классом фабрики.
     """
-    client_code(ChinaMenu(), 'Friday')
+    client_code(ChildMenu(), 'Sunday')
