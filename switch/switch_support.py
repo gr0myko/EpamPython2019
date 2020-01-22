@@ -13,13 +13,17 @@ def switch_support(func):
             if 'switch' in s:
                 switch = s.split()[1]
             elif 'case' in s:
-                case = s.split()[1]
+                case = s.split(' ', 1)[1]
                 if case in args_dict.keys():
-                    case = str(args_dict[case])
-                result = parsed_docstring.pop(0)
-                cases[case] = result.split()[1]
+                    case = args_dict[case]
+                try:
+                    case = int(case)
+                except ValueError:
+                    case = eval(case)
+                result = parsed_docstring.pop(0).split()[1]
+                cases[case] = int(result)
         if switch in args_dict.keys():
-            switch = str(args_dict[switch])
+            switch = args_dict[switch]
         return cases[switch]
     return wrapper
 
@@ -34,6 +38,10 @@ def test_function(a, b, c, d):
               return 2
          case d:
               return 3
-         case 7*2 + 1:
+         case sum([1, 14, -2, 4]):
               return 4
     """
+
+
+assert test_function(11, 9 + 2, 16, 5) == 1
+assert test_function(17, 11, 13, 16) == 4
