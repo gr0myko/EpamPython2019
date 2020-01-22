@@ -41,7 +41,3 @@ def test_function(a, b, c, d):
          case sum([1, 14, -2, 4]):
               return 4
     """
-
-
-assert test_function(11, 9 + 2, 16, 5) == 1
-assert test_function(17, 11, 13, 16) == 4
